@@ -110,10 +110,40 @@ export class VisitorRequestService {
 
   private initializeMockVisitorRequests(): VisitorRequest[] {
     const now = new Date();
+    const today = new Date(now);
     const tomorrow = new Date(now.getTime() + 86400000);
     const yesterday = new Date(now.getTime() - 86400000);
+    today.setHours(0, 0, 0, 0);
 
     return [
+      {
+        id: 'visit-current-1',
+        residentId: '1',
+        visitorName: 'Sam Current',
+        relationship: 'Brother',
+        visitDate: today.toISOString(),
+        expectedArrivalTime: '09:00',
+        expectedDepartureTime: '17:00',
+        purpose: 'Approved same-day family visit',
+        status: 'approved',
+        checkedIn: false,
+        checkedOut: false,
+        createdAt: new Date(now.getTime() - 7200000).toISOString(),
+      },
+      {
+        id: 'visit-current-2',
+        residentId: '2',
+        visitorName: 'Nina Today',
+        relationship: 'Case worker',
+        visitDate: today.toISOString(),
+        expectedArrivalTime: '08:30',
+        expectedDepartureTime: '18:00',
+        purpose: 'Approved same-day support appointment',
+        status: 'approved',
+        checkedIn: false,
+        checkedOut: false,
+        createdAt: new Date(now.getTime() - 5400000).toISOString(),
+      },
       {
         id: 'visit-1',
         residentId: '1',
