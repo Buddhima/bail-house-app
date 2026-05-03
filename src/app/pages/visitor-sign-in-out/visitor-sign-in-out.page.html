@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Visitor Sign In / Out</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="finish()">Exit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (visitorRequest) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ visitorRequest.visitorName }}</ion-card-title>
+        <ion-card-subtitle>
+          Visiting {{ resident?.firstName }} {{ resident?.lastName }}
+          @if (resident) {
+            <span> - Room {{ resident.roomNumber }}</span>
+          }
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>
+            <p><strong>Relationship:</strong> {{ visitorRequest.relationship }}</p>
+            <p><strong>Visit Date:</strong> {{ getFormattedDate(visitorRequest.visitDate) }}</p>
+            <p><strong>Expected Arrival:</strong> {{ visitorRequest.expectedArrivalTime }}</p>
+            <p><strong>Expected Departure:</strong> {{ visitorRequest.expectedDepartureTime }}</p>
+            <p><strong>Purpose:</strong> {{ visitorRequest.purpose }}</p>
+            @if (visitorRequest.checkedInAt) {
+              <p><strong>Signed In:</strong> {{ getFormattedTime(visitorRequest.checkedInAt) }}</p>
+            }
+            @if (visitorRequest.checkedOutAt) {
+              <p><strong>Signed Out:</strong> {{ getFormattedTime(visitorRequest.checkedOutAt) }}</p>
+            }
+          </ion-label>
+        </ion-item>
+
+        @if (!visitorRequest.checkedIn) {
+          <ion-button expand="block" color="success" (click)="signIn()">
+            <ion-icon [name]="loginIcon" slot="start"></ion-icon>
+            Sign In
+          </ion-button>
+        } @else if (!visitorRequest.checkedOut) {
+          <ion-button expand="block" color="danger" (click)="signOut()">
+            <ion-icon [name]="logoutIcon" slot="start"></ion-icon>
+            Sign Out
+          </ion-button>
+        } @else {
+          <ion-card class="complete-card">
+            <ion-card-content>
+              Your visit is complete. You can exit this screen.
+            </ion-card-content>
+          </ion-card>
+        }
+      </ion-card-content>
+    </ion-card>
+  }
+
+  <ion-alert
+    [isOpen]="showAlert"
+    header="Status"
+    [message]="alertMessage"
+    [buttons]="['OK']"
+    (didDismiss)="showAlert = false"
+  ></ion-alert>
+</ion-content>

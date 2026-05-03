@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { VisitorRequestService } from './services/visitor-request.service';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -11,9 +12,14 @@ export const routes: Routes = [
     canActivate: [
       () => {
         const auth = inject(AuthService);
+        const visitorRequests = inject(VisitorRequestService);
         const router = inject(Router);
         if (auth.isAuthenticated) {
           router.navigate(['/dashboard']);
+          return false;
+        }
+        if (visitorRequests.isVisitorAuthenticated) {
+          router.navigate(['/visitor-sign-in-out']);
           return false;
         }
         return true;
@@ -93,6 +99,24 @@ export const routes: Routes = [
         const auth = inject(AuthService);
         const router = inject(Router);
         if (!auth.isAuthenticated) {
+          router.navigate(['/login']);
+          return false;
+        }
+        return true;
+      },
+    ],
+  },
+  {
+    path: 'visitor-sign-in-out',
+    loadComponent: () =>
+      import('./pages/visitor-sign-in-out/visitor-sign-in-out.page').then(
+        (m) => m.VisitorSignInOutPage
+      ),
+    canActivate: [
+      () => {
+        const visitorRequests = inject(VisitorRequestService);
+        const router = inject(Router);
+        if (!visitorRequests.isVisitorAuthenticated) {
           router.navigate(['/login']);
           return false;
         }
