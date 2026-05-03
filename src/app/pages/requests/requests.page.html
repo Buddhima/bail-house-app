@@ -82,6 +82,12 @@
               <p><strong>Arrival:</strong> {{ request.expectedArrivalTime }}</p>
               <p><strong>Departure:</strong> {{ request.expectedDepartureTime }}</p>
               <p><strong>Purpose:</strong> {{ request.purpose }}</p>
+              @if (request.checkedInAt) {
+                <p><strong>Visitor Signed In:</strong> {{ request.checkedInAt | date:'medium' }}</p>
+              }
+              @if (request.checkedOutAt) {
+                <p><strong>Visitor Signed Out:</strong> {{ request.checkedOutAt | date:'medium' }}</p>
+              }
             </ion-label>
           </ion-item>
         </ion-card-content>

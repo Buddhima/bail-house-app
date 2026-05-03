@@ -29,6 +29,10 @@ export class AuthService {
     return this.mockResidents;
   }
 
+  getResidentById(residentId: string): Resident | undefined {
+    return this.mockResidents.find((resident) => resident.id === residentId);
+  }
+
   private mockResidents: Resident[] = [
     { id: '1', firstName: 'John', lastName: 'Doe', roomNumber: '101', phoneNumber: '555-0101' },
     { id: '2', firstName: 'Jane', lastName: 'Smith', roomNumber: '102', phoneNumber: '555-0102' },

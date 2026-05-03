@@ -10,5 +10,9 @@ export interface VisitorRequest {
   expectedDepartureTime: string;
   purpose: string;
   status: VisitorRequestStatus;
+  checkedIn: boolean;
+  checkedInAt?: string;
+  checkedOut: boolean;
+  checkedOutAt?: string;
   createdAt: string;
 }
