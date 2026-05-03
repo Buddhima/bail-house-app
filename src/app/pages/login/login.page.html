@@ -1,0 +1,30 @@
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Bail House Login</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Select Resident</ion-label>
+          <ion-select
+            [(ngModel)]="selectedResidentId"
+            placeholder="Select your name"
+          >
+            <ion-select-option *ngFor="let resident of residents" [value]="resident.id">
+              {{ resident.firstName }} {{ resident.lastName }} (Room {{ resident.roomNumber }})
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        @if (error) {
+          <p class="error-text">{{ error }}</p>
+        }
+
+        <ion-button expand="block" class="ion-margin-top" (click)="login()">
+          Login
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sign Out / In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (activeRequests.length === 0) {
+    <ion-card>
+      <ion-card-content class="empty-state">
+        <p>No active approved requests available for sign out/in.</p>
+        <p>Submit a request and wait for approval first.</p>
+      </ion-card-content>
+    </ion-card>
+  } @else {
+    @for (request of activeRequests; track request.id) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ request.reason }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>
+              <p><strong>Destination:</strong> {{ request.destination }}</p>
+              <p><strong>Departure:</strong> {{ getFormattedDate(request.departureDate) }}</p>
+              <p><strong>Return:</strong> {{ getFormattedDate(request.returnDate) }}</p>
+              @if (request.signedOutAt) {
+                <p><strong>Signed Out:</strong> {{ getFormattedDate(request.signedOutAt) }}</p>
+              }
+            </ion-label>
+          </ion-item>
+
+          @if (!request.signedOut) {
+            <ion-button expand="block" color="danger" (click)="signOut(request.id)">
+              <ion-icon [name]="logoutIcon" slot="start"></ion-icon>
+              Sign Out
+            </ion-button>
+          } @else if (!request.signedIn) {
+            <ion-button expand="block" color="success" (click)="signIn(request.id)">
+              <ion-icon [name]="loginIcon" slot="start"></ion-icon>
+              Sign In
+            </ion-button>
+          } @else {
+            <ion-item>
+              <ion-label>
+                <p><strong>Signed In:</strong> {{ request.signedInAt ? getFormattedDate(request.signedInAt) : '-' }}</p>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-card-content>
+      </ion-card>
+    }
+  }
+
+  <ion-alert
+    [isOpen]="showAlert"
+    header="Status"
+    [message]="alertMessage"
+    [buttons]="['OK']"
+  ></ion-alert>
+</ion-content>

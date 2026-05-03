@@ -1,0 +1,11 @@
+ion-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--ion-color-medium);
+}

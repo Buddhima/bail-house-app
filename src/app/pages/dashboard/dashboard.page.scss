@@ -1,0 +1,23 @@
+ion-grid {
+  margin-top: 1rem;
+}
+
+ion-card[button] {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  ion-icon {
+    font-size: 1.5rem;
+  }
+}

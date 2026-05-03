@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Submit Absence Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>New Request</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Reason for Absence</ion-label>
+        <ion-textarea
+          [(ngModel)]="reason"
+          placeholder="e.g., Medical appointment, Job interview"
+          rows="3"
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Destination</ion-label>
+        <ion-input
+          [(ngModel)]="destination"
+          placeholder="Where are you going?"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Departure Date & Time</ion-label>
+        <ion-datetime
+          [(ngModel)]="departureDate"
+          [min]="getMinDate()"
+          presentation="date-time"
+          preferWheel="true"
+        ></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Return Date & Time</ion-label>
+        <ion-datetime
+          [(ngModel)]="returnDate"
+          [min]="departureDate || getMinDate()"
+          presentation="date-time"
+          preferWheel="true"
+        ></ion-datetime>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="ion-margin-top"
+        [disabled]="!isFormValid"
+        (click)="submitRequest()"
+      >
+        Submit Request
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-alert
+    [isOpen]="showSuccessAlert"
+    header="Success"
+    message="Your absence request has been submitted and is pending approval."
+    [buttons]="['OK']"
+    (didDismiss)="onAlertDidDismiss()"
+  ></ion-alert>
+</ion-content>

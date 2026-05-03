@@ -1,0 +1,17 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+ion-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.error-text {
+  color: var(--ion-color-danger);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}

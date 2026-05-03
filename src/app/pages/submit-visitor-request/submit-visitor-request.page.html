@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Submit Visitor Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>New Visitor Request</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Visitor Name</ion-label>
+        <ion-input
+          [(ngModel)]="visitorName"
+          aria-label="Visitor Name"
+          placeholder="Who is coming to visit?"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Relationship</ion-label>
+        <ion-input
+          [(ngModel)]="relationship"
+          aria-label="Relationship"
+          placeholder="e.g., Parent, sibling, case worker"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Visit Date</ion-label>
+        <ion-input
+          [(ngModel)]="visitDate"
+          aria-label="Visit Date"
+          type="date"
+          [min]="getMinDate()"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Expected Arrival Time</ion-label>
+        <ion-input
+          [(ngModel)]="expectedArrivalTime"
+          aria-label="Expected Arrival Time"
+          type="time"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Expected Departure Time</ion-label>
+        <ion-input
+          [(ngModel)]="expectedDepartureTime"
+          aria-label="Expected Departure Time"
+          type="time"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Purpose of Visit</ion-label>
+        <ion-textarea
+          [(ngModel)]="purpose"
+          aria-label="Purpose of Visit"
+          placeholder="Briefly describe the reason for the visit"
+          rows="3"
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="ion-margin-top"
+        [disabled]="!isFormValid"
+        (click)="submitRequest()"
+      >
+        Submit Visitor Request
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-alert
+    [isOpen]="showSuccessAlert"
+    header="Success"
+    message="Your visitor request has been submitted and is pending approval."
+    [buttons]="['OK']"
+    (didDismiss)="onAlertDidDismiss()"
+  ></ion-alert>
+</ion-content>

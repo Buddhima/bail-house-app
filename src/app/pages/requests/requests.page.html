@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  @if (requests.length === 0 && visitorRequests.length === 0) {
+    <ion-card>
+      <ion-card-content class="empty-state">
+        <p>No requests found.</p>
+        <p>Submit an absence or visitor request from the dashboard.</p>
+      </ion-card-content>
+    </ion-card>
+  } @else {
+    @if (requests.length > 0) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Absence Requests</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    }
+
+    @for (request of requests; track request.id) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            {{ request.reason }}
+          </ion-card-title>
+          <ion-badge [color]="getStatusColor(request.status)">
+            {{ request.status | uppercase }}
+          </ion-badge>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>
+              <p><strong>Destination:</strong> {{ request.destination }}</p>
+              <p><strong>Departure:</strong> {{ request.departureDate | date:'medium' }}</p>
+              <p><strong>Return:</strong> {{ request.returnDate | date:'medium' }}</p>
+              @if (request.signedOut) {
+                <p><strong>Signed Out:</strong> {{ request.signedOutAt | date:'medium' }}</p>
+              }
+              @if (request.signedIn) {
+                <p><strong>Signed In:</strong> {{ request.signedInAt | date:'medium' }}</p>
+              }
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    }
+
+    @if (visitorRequests.length > 0) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Visitor Requests</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    }
+
+    @for (request of visitorRequests; track request.id) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            {{ request.visitorName }}
+          </ion-card-title>
+          <ion-badge [color]="getStatusColor(request.status)">
+            {{ request.status | uppercase }}
+          </ion-badge>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>
+              <p><strong>Relationship:</strong> {{ request.relationship }}</p>
+              <p><strong>Visit Date:</strong> {{ request.visitDate | date:'mediumDate' }}</p>
+              <p><strong>Arrival:</strong> {{ request.expectedArrivalTime }}</p>
+              <p><strong>Departure:</strong> {{ request.expectedDepartureTime }}</p>
+              <p><strong>Purpose:</strong> {{ request.purpose }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    }
+  }
+</ion-content>
